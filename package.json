@@ -17,6 +17,8 @@
   "author": "Padalka Sergey",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.8.4",
+    "notiflix": "^3.2.8",
     "vite-plugin-full-reload": "^1.2.0",
     "vite-plugin-html-inject": "^1.1.2"
   }
