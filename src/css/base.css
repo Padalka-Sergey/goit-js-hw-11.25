@@ -6,8 +6,9 @@ body {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin: 0 auto;
-  padding: 9px;
+  /* margin: 0 auto; */
+  padding-top: 9px;
+  padding-bottom: 9px;
   background-color: rgb(0, 72, 255);
   box-shadow: 0 8px 8px -5px rgba(0, 0, 0, 0.3);
 }
@@ -25,7 +26,7 @@ input:focus-visible {
   outline: 2px solid rgb(111, 133, 233);
 }
 
-button {
+.btn-submit {
   padding: 9px;
   position: absolute;
   top: 1px;
@@ -34,11 +35,40 @@ button {
   border-radius: 4px;
 }
 
-button::before {
+.btn-submit::before {
   display: block;
   content: '';
   width: 13px;
   height: 13px;
   background-size: contain;
   background-image: url('../img/search.svg');
+}
+
+.load-more {
+  display: none;
+}
+
+.load-more-visible {
+  display: block;
+  margin: 0 auto;
+}
+
+/* GALLERY */
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 15px 10px;
+  /* padding: 15px 10px; */
+}
+
+.photo-card {
+  padding: 8px;
+}
+
+img {
+  width: 335px;
+  height: 220px;
+  object-fit: cover;
 }
