@@ -13,18 +13,37 @@ function onSubmit(evt) {
   evt.preventDefault();
   const form = evt.target;
   searchQuery = form.elements.searchQuery.value;
+  page = 1;
+
+  delMarkup();
+  delLoadMore();
+
   if (searchQuery === '') {
-    return console.log('Please fill in all the fields!');
+    Notiflix.Notify.failure('Please fill in all the fields!');
+    return;
   }
 
   fetchFotos(searchQuery, page)
     .then(({ hits, totalHits }) => {
       if (hits.length === 0) {
-        return console.log(
+        Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
+        return;
       }
 
+      showLoadMore(hits, totalHits, page);
+      makeMarkup(hits);
+      page += 1;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+function onClckloadMore() {
+  fetchFotos(searchQuery, page)
+    .then(({ hits, totalHits }) => {
       showLoadMore(hits, totalHits, page);
       makeMarkup(hits);
       page += 1;
@@ -41,16 +60,16 @@ function makeMarkup(dataResp) {
   <img src=${dataEl.webformatURL} alt=${dataEl.tags} loading="lazy" />
   <div class="info">
     <p class="info-item">
-      <b>Likes ${dataEl.likes}</b>
+      <b>Likes</b> ${dataEl.likes}
     </p>
     <p class="info-item">
-      <b>Views ${dataEl.views}</b>
+      <b>Views</b> ${dataEl.views}
     </p>
     <p class="info-item">
-      <b>Comments ${dataEl.comments}</b>
+      <b>Comments</b> ${dataEl.comments}
     </p>
     <p class="info-item">
-      <b>Downloads ${dataEl.downloads}</b>
+      <b>Downloads</b> ${dataEl.downloads}
     </p>
   </div>
 </div>`
@@ -59,32 +78,23 @@ function makeMarkup(dataResp) {
   refGallery.insertAdjacentHTML('beforeend', markup);
 }
 
-function onClckloadMore() {
-  fetchFotos(searchQuery, page)
-    .then(({ hits, totalHits }) => {
-      showLoadMore(hits, totalHits, page);
-      makeMarkup(hits);
-      page += 1;
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
-
 function showLoadMore(hits, totalHits, page) {
-  console.log(page);
-  console.log(hits.length * page);
-  console.log(totalHits);
   if (hits.length % 40 === 0 && hits.length * page < totalHits) {
-    console.log('Первый иф');
-    // console.log(' Второй иф');
     return refLoadMore.classList.add('load-more-visible');
   }
-  if (hits.length * page >= totalHits - 40) {
-    // console.log('Первый иф');
-    console.log('Второй иф');
-    return refLoadMore.classList.remove('load-more-visible');
+  refLoadMore.classList.remove('load-more-visible');
+
+  Notiflix.Notify.failure(
+    "We're sorry, but you've reached the end of search results."
+  );
+}
+
+function delMarkup() {
+  refGallery.innerHTML = '';
+}
+
+function delLoadMore() {
+  if (refLoadMore.classList.contains('load-more-visible')) {
+    refLoadMore.classList.remove('load-more-visible');
   }
-  //   refLoadMore.classList.remove('load-more-visible');
-  //   console.log('Третий');
 }

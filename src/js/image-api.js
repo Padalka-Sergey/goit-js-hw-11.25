@@ -10,10 +10,6 @@ function fetchFotos(query, page) {
   return axios
     .get(`?key=${API_KEY}&q=${query}${PARAMS}&page=${page}`)
     .then(({ data }) => data);
-  // .catch(error => {
-  //   console.log(error);
-  //   console.log('ОШИБКА');
-  // });
 }
 
 export { fetchFotos };
