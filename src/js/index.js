@@ -1,18 +1,21 @@
 import { fetchFotos } from './image-api';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+// import throttle from 'lodash.throttle';
 
-const refForm = document.querySelector('#search-form');
-const refGallery = document.querySelector('.gallery');
-const refLoadMore = document.querySelector('.load-more');
+const ref = {
+  form: document.querySelector('#search-form'),
+  galery: document.querySelector('.gallery'),
+  loadMore: document.querySelector('.load-more'),
+};
 
 let searchQuery = null;
 let page = 1;
 let gallery = null;
 
-refForm.addEventListener('submit', onSubmit);
-refLoadMore.addEventListener('click', onClckloadMore);
-refGallery.addEventListener('click', onClckLinkImg);
+ref.form.addEventListener('submit', onSubmit);
+ref.loadMore.addEventListener('click', onClckloadMore);
+ref.galery.addEventListener('click', onClckLinkImg);
 
 function onSubmit(evt) {
   evt.preventDefault();
@@ -36,7 +39,7 @@ function onSubmit(evt) {
         );
         return;
       }
-
+      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
       showLoadMore(hits, totalHits, page);
       makeMarkup(hits);
 
@@ -52,7 +55,9 @@ function onClckloadMore() {
     .then(({ hits, totalHits }) => {
       showLoadMore(hits, totalHits, page);
       makeMarkup(hits);
-      // gallery.refresh();
+      if (gallery) {
+        gallery.refresh();
+      }
       makeLowScroll();
       page += 1;
     })
@@ -83,14 +88,14 @@ function makeMarkup(dataResp) {
 </div></a>`
     )
     .join('');
-  refGallery.insertAdjacentHTML('beforeend', markup);
+  ref.galery.insertAdjacentHTML('beforeend', markup);
 }
 
 function showLoadMore(hits, totalHits, page) {
   if (hits.length % 40 === 0 && hits.length * page < totalHits) {
-    return refLoadMore.classList.add('load-more-visible');
+    return ref.loadMore.classList.add('load-more-visible');
   }
-  refLoadMore.classList.remove('load-more-visible');
+  ref.loadMore.classList.remove('load-more-visible');
 
   Notiflix.Notify.failure(
     "We're sorry, but you've reached the end of search results."
@@ -98,12 +103,12 @@ function showLoadMore(hits, totalHits, page) {
 }
 
 function delMarkup() {
-  refGallery.innerHTML = '';
+  ref.galery.innerHTML = '';
 }
 
 function delLoadMore() {
-  if (refLoadMore.classList.contains('load-more-visible')) {
-    refLoadMore.classList.remove('load-more-visible');
+  if (ref.loadMore.classList.contains('load-more-visible')) {
+    ref.loadMore.classList.remove('load-more-visible');
   }
 }
 
@@ -114,10 +119,31 @@ function onClckLinkImg(evt) {
 }
 
 function makeLowScroll() {
-  const { height } = refGallery.firstElementChild.getBoundingClientRect();
+  const { height } = ref.galery.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
     top: height * 2,
     behavior: 'smooth',
   });
 }
+
+// Бесконечный скролл  =======================
+
+// window.addEventListener(
+//   'scroll',
+//   throttle(() => {
+//     throttleScroll();
+//   }, 250)
+// );
+
+// function throttleScroll() {
+//   console.log('Scroll');
+
+//   const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+
+//   if (scrollTop >= scrollHeight - clientHeight - 1000) {
+//     onClckloadMore();
+//   }
+// }
+
+// ================================================
