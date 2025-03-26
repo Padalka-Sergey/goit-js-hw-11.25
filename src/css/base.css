@@ -84,8 +84,11 @@ input:focus-visible {
   margin: 15px 10px;
 }
 
-.photo-card {
+.large-image {
   margin: 8px;
+}
+
+.photo-card {
   box-shadow: 2px 5px 6px -1px rgba(23, 23, 158, 0.8);
 }
 
