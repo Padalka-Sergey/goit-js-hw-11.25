@@ -23,10 +23,10 @@ input {
   border: none;
   border-radius: 4px;
   padding: 9px;
-}
 
-input:focus-visible {
-  outline: 2px solid rgb(111, 133, 233);
+  &:focus-visible {
+    outline: 2px solid rgb(111, 133, 233);
+  }
 }
 
 .btn-submit {
@@ -36,22 +36,21 @@ input:focus-visible {
   right: 0px;
   border: none;
   border-radius: 4px;
-}
 
-.btn-submit::before {
-  display: block;
-  content: '';
-  width: 33px;
-  height: 33px;
-  border-radius: 4px;
-  background-color: rgb(233, 229, 224);
-  background-size: contain;
-  background-image: url('../img/search.svg');
-}
+  &::before {
+    display: block;
+    content: '';
+    width: 33px;
+    height: 33px;
+    border-radius: 4px;
+    background-color: rgb(233, 229, 224);
+    background-size: contain;
+    background-image: url('../img/search.svg');
+  }
 
-/* .btn-submit:focus.btn-submit::before  */
-.btn-submit:hover.btn-submit::before {
-  background-color: rgb(225, 217, 208);
+  &:hover.btn-submit::before {
+    background-color: rgb(225, 217, 208);
+  }
 }
 
 .load-more {
@@ -64,11 +63,10 @@ input:focus-visible {
   background-color: rgb(58, 58, 241);
   border-radius: 5px;
   border: none;
-}
 
-/* .load-more:focus  */
-.load-more:hover {
-  background-color: rgb(26, 26, 229);
+  &:hover {
+    background-color: rgb(26, 26, 229);
+  }
 }
 
 .load-more-visible {

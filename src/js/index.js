@@ -88,6 +88,7 @@ function makeMarkup(dataResp) {
 </div></a>`
     )
     .join('');
+
   ref.galery.insertAdjacentHTML('beforeend', markup);
 }
 
